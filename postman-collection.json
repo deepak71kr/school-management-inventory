@@ -1,48 +1,72 @@
 {
 	"info": {
-		"name": "School Management API (Test Data)",
+		"_postman_id": "b34e567a-1234-5678-9012-d1e3a4f5b6c7",
+		"name": "School Management API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "1. Add Central High School",
+			"name": "Add New School",
 			"request": {
 				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"name\": \"Central High School\",\n    \"address\": \"123 Main St\",\n    \"latitude\": 40.7128,\n    \"longitude\": -74.0060\n}"
+					"raw": "{\n    \"name\": \"Valley View Elementary\",\n    \"address\": \"100 School Road\",\n    \"latitude\": 40.7128,\n    \"longitude\": -74.0060\n}"
 				},
-				"url": "http://localhost:3000/addSchool"
-			}
+				"url": {
+					"raw": "https://school-management-inventory.onrender.com/addSchool",
+					"protocol": "https",
+					"host": [
+						"school-management-inventory",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"addSchool"
+					]
+				},
+				"description": "Adds a new school record to the database. Use this endpoint to populate the `schools` table before testing the listSchools endpoint."
+			},
+			"response": []
 		},
 		{
-			"name": "2. Add Northwood Elementary",
-			"request": {
-				"method": "POST",
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Northwood Elementary\",\n    \"address\": \"456 Elm Ave\",\n    \"latitude\": 40.7580,\n    \"longitude\": -73.9855\n}"
-				},
-				"url": "http://localhost:3000/addSchool"
-			}
-		},
-		{
-			"name": "3. Add Lakeside Academy",
-			"request": {
-				"method": "POST",
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Lakeside Academy\",\n    \"address\": \"789 Lake Dr\",\n    \"latitude\": 40.6782,\n    \"longitude\": -73.9442\n}"
-				},
-				"url": "http://localhost:3000/addSchool"
-			}
-		},
-		{
-			"name": "4. List Schools by Proximity (User at Central Park)",
+			"name": "List Schools by Proximity",
 			"request": {
 				"method": "GET",
-				"url": "http://localhost:3000/listSchools?user_latitude=40.7850&user_longitude=-73.9682"
-			}
+				"header": [],
+				"url": {
+					"raw": "https://school-management-inventory.onrender.com/listSchools?user_latitude=40.7128&user_longitude=-74.0060",
+					"protocol": "https",
+					"host": [
+						"school-management-inventory",
+						"onrender",
+						"com"
+					],
+					"path": [
+						"listSchools"
+					],
+					"query": [
+						{
+							"key": "user_latitude",
+							"value": "40.7128",
+							"description": "The latitude of the user's location."
+						},
+						{
+							"key": "user_longitude",
+							"value": "-74.0060",
+							"description": "The longitude of the user's location."
+						}
+					]
+				},
+				"description": "Retrieves all schools from the database and returns them sorted by their distance from the user's provided location. The closest schools will be at the top of the list."
+			},
+			"response": []
 		}
 	]
 }

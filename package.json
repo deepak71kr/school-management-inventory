@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "School Management APIThis project provides two Node.js APIs for a school management system, using Express.js, MySQL, and the geolib library.Getting Started1. Database SetupFirst, you need to set up the MySQL database. Connect to your MySQL server and run the following SQL query to create the school_management database and the schools table.CREATE DATABASE IF NOT EXISTS school_management;",
   "main": "index.js",
+  "type":"module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"

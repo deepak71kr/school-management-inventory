@@ -1,0 +1,48 @@
+{
+	"info": {
+		"name": "School Management API (Test Data)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "1. Add Central High School",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Central High School\",\n    \"address\": \"123 Main St\",\n    \"latitude\": 40.7128,\n    \"longitude\": -74.0060\n}"
+				},
+				"url": "http://localhost:3000/addSchool"
+			}
+		},
+		{
+			"name": "2. Add Northwood Elementary",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Northwood Elementary\",\n    \"address\": \"456 Elm Ave\",\n    \"latitude\": 40.7580,\n    \"longitude\": -73.9855\n}"
+				},
+				"url": "http://localhost:3000/addSchool"
+			}
+		},
+		{
+			"name": "3. Add Lakeside Academy",
+			"request": {
+				"method": "POST",
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Lakeside Academy\",\n    \"address\": \"789 Lake Dr\",\n    \"latitude\": 40.6782,\n    \"longitude\": -73.9442\n}"
+				},
+				"url": "http://localhost:3000/addSchool"
+			}
+		},
+		{
+			"name": "4. List Schools by Proximity (User at Central Park)",
+			"request": {
+				"method": "GET",
+				"url": "http://localhost:3000/listSchools?user_latitude=40.7850&user_longitude=-73.9682"
+			}
+		}
+	]
+}

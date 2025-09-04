@@ -4,14 +4,17 @@ const geolib = require('geolib');
 const cors = require('cors');
 const dotenv = require('dotenv');
 
+// Load environment variables from the .env file
 dotenv.config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
+// Middleware
 app.use(express.json());
 app.use(cors());
 
+// Create a direct connection to the database
 const db = mysql.createPool({
     host: process.env.MYSQL_HOST,
     user: process.env.MYSQL_USER,
@@ -19,41 +22,63 @@ const db = mysql.createPool({
     database: process.env.MYSQL_DATABASE
 });
 
+// A new route for the root URL to provide a friendly message.
+app.get('/', (req, res) => {
+    res.status(200).send('API is running!');
+});
+
+// POST /addSchool - Adds a new school
 app.post('/addSchool', async (req, res) => {
     const { name, address, latitude, longitude } = req.body;
-    if (!name || !address || isNaN(latitude) || isNaN(longitude)) {
-        return res.status(400).json({ error: 'Missing or invalid fields.' });
+
+    if (!name || !address || latitude === undefined || longitude === undefined) {
+        return res.status(400).json({ error: 'All fields are required.' });
     }
-    const query = 'INSERT INTO schools (name, address, latitude, longitude) VALUES (?, ?, ?, ?)';
+
     try {
-        await db.execute(query, [name, address, latitude, longitude]);
-        res.status(201).json({ message: 'School added!' });
+        const query = 'INSERT INTO schools (name, address, latitude, longitude) VALUES (?, ?, ?, ?)';
+        const [result] = await db.execute(query, [name, address, latitude, longitude]);
+        res.status(201).json({ 
+            message: 'School added!', 
+            schoolId: result.insertId 
+        });
     } catch (error) {
+        console.error('Failed to add school:', error);
         res.status(500).json({ error: 'Could not add school.' });
     }
 });
 
+// GET /listSchools - Lists schools sorted by proximity
 app.get('/listSchools', async (req, res) => {
     const { user_latitude, user_longitude } = req.query;
-    const userLocation = { latitude: parseFloat(user_latitude), longitude: parseFloat(user_longitude) };
 
-    if (isNaN(userLocation.latitude) || isNaN(userLocation.longitude)) {
-        return res.status(400).json({ error: 'User location is invalid.' });
+    if (user_latitude === undefined || user_longitude === undefined) {
+        return res.status(400).json({ error: 'User location is required.' });
     }
+
+    const userLocation = {
+        latitude: parseFloat(user_latitude),
+        longitude: parseFloat(user_longitude)
+    };
 
     try {
         const [schools] = await db.execute('SELECT * FROM schools');
-        const sortedSchools = schools.map(school => ({
-            ...school,
-            distance_meters: geolib.getDistance(userLocation, { latitude: school.latitude, longitude: school.longitude })
-        })).sort((a, b) => a.distance_meters - b.distance_meters);
+
+        const sortedSchools = schools.map(school => {
+            const distance = geolib.getDistance(userLocation, {
+                latitude: school.latitude,
+                longitude: school.longitude
+            });
+            return { ...school, distance_meters: distance };
+        }).sort((a, b) => a.distance_meters - b.distance_meters);
 
         res.status(200).json(sortedSchools);
     } catch (error) {
+        console.error('Failed to fetch schools:', error);
         res.status(500).json({ error: 'Could not fetch schools.' });
     }
 });
 
 app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+    console.log(`Server listening on port ${port}`);
 });

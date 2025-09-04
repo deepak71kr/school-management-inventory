@@ -15,12 +15,11 @@ app.use(express.json());
 app.use(cors());
 
 // Create a direct connection to the database
-const db = mysql.createPool({
-    host: process.env.MYSQL_HOST,
-    user: process.env.MYSQL_USER,
-    password: process.env.MYSQL_PASSWORD,
-    database: process.env.MYSQL_DATABASE
-});
+host: localhost
+user: root
+password: admin
+database: school_management
+
 
 // A new route for the root URL to provide a friendly message.
 app.get('/', (req, res) => {

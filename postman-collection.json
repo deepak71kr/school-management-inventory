@@ -1,72 +1,70 @@
 {
-	"info": {
-		"_postman_id": "b34e567a-1234-5678-9012-d1e3a4f5b6c7",
-		"name": "School Management API",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
-	},
-	"item": [
-		{
-			"name": "Add New School",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"name\": \"Valley View Elementary\",\n    \"address\": \"100 School Road\",\n    \"latitude\": 40.7128,\n    \"longitude\": -74.0060\n}"
-				},
-				"url": {
-					"raw": "https://school-management-inventory.onrender.com/addSchool",
-					"protocol": "https",
-					"host": [
-						"school-management-inventory",
-						"onrender",
-						"com"
-					],
-					"path": [
-						"addSchool"
-					]
-				},
-				"description": "Adds a new school record to the database. Use this endpoint to populate the `schools` table before testing the listSchools endpoint."
-			},
-			"response": []
-		},
-		{
-			"name": "List Schools by Proximity",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://school-management-inventory.onrender.com/listSchools?user_latitude=40.7128&user_longitude=-74.0060",
-					"protocol": "https",
-					"host": [
-						"school-management-inventory",
-						"onrender",
-						"com"
-					],
-					"path": [
-						"listSchools"
-					],
-					"query": [
-						{
-							"key": "user_latitude",
-							"value": "40.7128",
-							"description": "The latitude of the user's location."
-						},
-						{
-							"key": "user_longitude",
-							"value": "-74.0060",
-							"description": "The longitude of the user's location."
-						}
-					]
-				},
-				"description": "Retrieves all schools from the database and returns them sorted by their distance from the user's provided location. The closest schools will be at the top of the list."
-			},
-			"response": []
-		}
-	]
+  "info": {
+    "_postman_id": "f6e17e7c-2345-6789-abcd-1234567890ef",
+    "name": "School Management API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Add New School",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Valley View Elementary\",\n    \"address\": \"100 School Road\",\n    \"latitude\": 40.7128,\n    \"longitude\": -74.0060\n}"
+        },
+        "url": {
+          "raw": "https://school-management-inventory.onrender.com/addSchool",
+          "protocol": "https",
+          "host": [
+            "school-management-inventory",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "addSchool"
+          ]
+        },
+        "description": "Adds a new school record to the database."
+      },
+      "response": []
+    },
+    {
+      "name": "List Schools by Proximity",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "https://school-management-inventory.onrender.com/listSchools?user_latitude=40.7128&user_longitude=-74.0060",
+          "protocol": "https",
+          "host": [
+            "school-management-inventory",
+            "onrender",
+            "com"
+          ],
+          "path": [
+            "listSchools"
+          ],
+          "query": [
+            {
+              "key": "user_latitude",
+              "value": "40.7128"
+            },
+            {
+              "key": "user_longitude",
+              "value": "-74.0060"
+            }
+          ]
+        },
+        "description": "Lists schools sorted by distance from user location."
+      },
+      "response": []
+    }
+  ]
 }
